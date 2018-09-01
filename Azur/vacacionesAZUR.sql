@@ -3870,6 +3870,124 @@ begin
   set @conte  = @conte +1
 end
 
+go
+
+
+
+ALTER procedure [pl].[Promedio12Vaca]
+
+(
+ @IDEMPLEADO INT,
+ @proyecto_id  int, 
+@motnoprovedio numeric(9,2) out
+
+)
+as
+
+
+
+
+declare @montototal  numeric(9,2)=0
+declare @montoingres numeric(9,2)=0
+
+
+
+create table #uno (sueldo numeric(9,2),mes varchar(20))
+if (@IDEMPLEADO <> 153 AND @IDEMPLEADO <> 163 AND @IDEMPLEADO <>48 AND @IDEMPLEADO <> 173)
+BEGIN
+insert into #uno(sueldo,mes)
+select  top 24
+(p.sueldo_base) as sueldo,
+fecha_fin  as ingreso 
+-- into #uno 
+ from pl.Planilla_Resumen  p
+inner join pl.Planilla_Cabecera c on p.planilla_cabecera_id  = c.id  
+ where empleado_id  =@IDEMPLEADO
+--and anticipo  =0   
+and isnull(aguinaldo,0)  =0  
+and isnull(vacacion,0) = 0
+and ISNULL(bono,0) = 0 
+and p.id <>4384  and proyecto_id = @proyecto_id
+order by CONVERT(varchar(10),fecha_fin,112)  desc
+end
+ELSE
+BEGIN
+insert into #uno(sueldo,mes)
+select  top 24
+(p.sueldo_base) as sueldo,
+fecha_fin   as ingreso 
+ from pl.Planilla_Resumen  p
+inner join pl.Planilla_Cabecera c on p.planilla_cabecera_id  = c.id  
+ where empleado_id  =@IDEMPLEADO
+--and anticipo  =0   
+and isnull(aguinaldo,0)  =0  
+and isnull(vacacion,0) = 0
+and ISNULL(bono,0) = 0 
+and p.id <>4384  
+order by CONVERT(varchar(10),fecha_fin,112)  desc
+END
+
+
+
+create table #uno2 (ingreso numeric(9,2), mes varchar(20))
+if (@IDEMPLEADO <> 153 AND @IDEMPLEADO <> 163 AND @IDEMPLEADO <>48 AND @IDEMPLEADO <> 173)
+BEGIN
+insert into #uno2(ingreso, mes)
+select  top 12
+ sum(p.ingresos_afectos_prestaciones) +sum(p.total_extras)   as ingreso ,CONVERT(varchar(8), fecha_fin, 102)
+--into #uno2
+ from pl.Planilla_Resumen  p
+inner join pl.Planilla_Cabecera c on p.planilla_cabecera_id  = c.id  
+ where empleado_id  =@IDEMPLEADO
+--and anticipo  =0   
+and isnull(aguinaldo,0)  =0  
+and isnull(vacacion,0) = 0
+and ISNULL(bono,0) = 0 
+and p.id <>4384  and proyecto_id = @proyecto_id
+group by CONVERT(varchar(8), fecha_fin, 102)
+order by CONVERT(varchar(8), fecha_fin, 102) desc
+END
+ELSE
+BEGIN
+insert into #uno2(ingreso, mes)
+select  top 12
+ sum(p.ingresos_afectos_prestaciones) +sum(p.total_extras)  as ingreso ,CONVERT(varchar(8), fecha_fin, 102)
+--into #uno2
+ from pl.Planilla_Resumen  p
+inner join pl.Planilla_Cabecera c on p.planilla_cabecera_id  = c.id  
+ where empleado_id  =@IDEMPLEADO
+--and anticipo  =0   
+and isnull(aguinaldo,0)  =0  
+and isnull(vacacion,0) = 0
+and ISNULL(bono,0) = 0 
+and p.id <>4384
+group by CONVERT(varchar(8), fecha_fin, 102)
+order by CONVERT(varchar(8), fecha_fin, 102) desc
+END
+set @montototal   = (select AVG(sueldo) from #uno)
+set @montoingres    = (select AVG(ingreso ) from #uno2)
+set @motnoprovedio = (@montototal+@montoingres)
+
+
+
+select * from #uno
+
+select * from #uno2
+--select @motnoprovedio as promedio
+drop table  #uno
+drop table  #uno2
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
