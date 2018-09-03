@@ -1,0 +1,29 @@
+Para cofigurar buscar campos -----CONFIGURA CALCULO
+
+---************  CONFIGURA CALCULO INDEMIZACION 1 = SI 0 =NO
+---*********************************************************
+declare @CALbonIndemizacion int=0      ---BONIFICACION****** 
+declare @CALhorasIndemizacion int =0   ---HORAS EXTRAS******
+declare @CALingresosIndemizacion int=0 ---INGRESOS**********
+---*********************************************************
+---************  CONFIGURA CALCULO VACACION 1 = SI 0 =NO
+---*********************************************************
+declare @CALbonIndemizacion int=0      ---BONIFICACION****** 
+declare @CALhorasIndemizacion int =0   ---HORAS EXTRAS******
+declare @CALingresosIndemizacion int=0 ---INGRESOS**********
+---*********************************************************
+---*********************************************************
+
+---************  CONFIGURA CALCULO AGUINALDO 1 = SI 0 =NO
+---*********************************************************
+declare @CALbonIndemizacion int=0      ---BONIFICACION****** 
+declare @CALhorasIndemizacion int =0   ---HORAS EXTRAS******
+declare @CALingresosIndemizacion int=0 ---INGRESOS**********
+---*********************************************************
+---*********************************************************
+---************  CONFIGURA CALCULO BONO 14   1 = SI 0 =NO
+---*********************************************************
+declare @CALbonIndemizacion int=0      ---BONIFICACION****** 
+declare @CALhorasIndemizacion int =0   ---HORAS EXTRAS******
+declare @CALingresosIndemizacion int=0 ---INGRESOS**********
+---*********************************************************
