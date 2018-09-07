@@ -1,0 +1,10 @@
+declare  @CODIGO VARCHAR(50) ='INVR025' ---  COLOCAR EL CODIGO DE
+declare @empleadoId  int = (select  empleado_id from rh.Empleado_Proyecto where codigo = @codigo)
+declare @idretiro int -- =188
+declare @bonIndemizacion int =0   --- COLOCAR AFECTA BONIFICACIO DECRETO
+declare @horasIndemizacion int =1  ---COLOCAR AFECTA HORAS EXTRAS
+declare @ingresosIndemizacion int =1   ---COLOCAR  AFECTA INGRESOS AFECTOS
+declare @monto numeric (9,2)  
+set @idretiro = (select id from pl.Empleado_Retiro where empleado_id =@empleadoId)
+exec [pl].[CalculoRetiroMONTO] @idretiro, @bonIndemizacion, @horasIndemizacion, @ingresosIndemizacion, @monto out
+select @monto as promedioDiario
