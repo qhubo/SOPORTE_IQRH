@@ -1,0 +1,11 @@
+
+declare @codigo varchar(30)='114'
+--***  COLOCAR CODIGO DE EMPLEADO A ACTIVAR
+declare @empleadoId int = (select  top 1 empleado_id from rh.Empleado_Proyecto where codigo= @codigo)
+
+delete from pl.Empleado_Retiro_Detalle where Empleado_Retiro_Id in (select id from pl.Empleado_Retiro where empleado_id = @empleadoId)
+delete from pl.Empleado_Retiro where empleado_id = @empleadoId
+
+update rh.Empleado_Proyecto set fecha_baja =null , activo =1 where codigo = @codigo
+
+select rh.nombre_empleado(empleado_id), codigo, fecha_alta, activo, fecha_baja from rh.Empleado_Proyecto where codigo = @codigo
